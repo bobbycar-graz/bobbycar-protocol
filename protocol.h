@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#ifdef GLUMP_CONTROLLER
 namespace {
 
 enum class ControlType : uint8_t {
@@ -120,3 +121,4 @@ uint16_t calculateChecksum(Feedback feedback) {
 }
 
 }
+#endif
