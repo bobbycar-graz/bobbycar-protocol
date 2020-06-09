@@ -82,6 +82,7 @@ struct MotorFeedback {
     uint8_t   error = 0;
     int16_t   current = 0;
     uint32_t  chops = 0;
+    int32_t   angleDelta = 0;
     bool      hallA = false,
               hallB = false,
               hallC = false;
@@ -90,7 +91,7 @@ struct MotorFeedback {
 uint16_t calculateChecksum(MotorFeedback feedback) {
     return feedback.angle ^ feedback.speed ^
            feedback.error ^ feedback.current ^
-           feedback.chops ^
+           feedback.chops ^ feedback.angleDelta ^
            feedback.hallA ^ feedback.hallB ^ feedback.hallC;
 }
 
@@ -102,7 +103,7 @@ struct Feedback {
 
     MotorFeedback left, right;
 
-    int16_t   batVoltage = 0;
+    uint16_t  batVoltage = 0;
     int16_t   boardTemp = 0;
 
     int16_t timeoutCntSerial   = 0;
