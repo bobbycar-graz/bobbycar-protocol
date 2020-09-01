@@ -22,11 +22,11 @@ struct MotorState {
     int16_t pwm = 0;
     ControlType ctrlTyp = ControlType::FieldOrientedControl;
     ControlMode ctrlMod = ControlMode::OpenMode;
-    int16_t iMotMax = 15;                  // [A] Maximum motor current limit
-    int16_t iDcMax = 17;                   // [A] Maximum DC Link current limit (This is the final current protection. Above this value, current chopping is applied. To avoid this make sure that I_DC_MAX = I_MOT_MAX + 2A)
-    int16_t nMotMax = 1000;                // [rpm] Maximum motor speed limit
-    int16_t fieldWeakMax = 10;             // [A] Maximum Field Weakening D axis current (only for FOC). Higher current results in higher maximum speed.
-    int16_t phaseAdvMax = 40;              // [deg] Maximum Phase Advance angle (only for SIN). Higher angle results in higher maximum speed.
+    uint8_t iMotMax = 15;                  // [A] Maximum motor current limit
+    uint8_t iDcMax = 17;                   // [A] Maximum DC Link current limit (This is the final current protection. Above this value, current chopping is applied. To avoid this make sure that I_DC_MAX = I_MOT_MAX + 2A)
+    uint16_t nMotMax = 1000;               // [rpm] Maximum motor speed limit
+    uint8_t fieldWeakMax = 10;             // [A] Maximum Field Weakening D axis current (only for FOC). Higher current results in higher maximum speed.
+    uint8_t phaseAdvMax = 40;              // [deg] Maximum Phase Advance angle (only for SIN). Higher angle results in higher maximum speed.
 };
 
 uint16_t calculateChecksum(MotorState state) {
@@ -81,7 +81,7 @@ struct MotorFeedback {
     int16_t   speed = 0;
     uint8_t   error = 0;
     int16_t   current = 0;
-    uint32_t  chops = 0;
+    uint16_t  chops = 0;
     bool      hallA = false,
               hallB = false,
               hallC = false;
