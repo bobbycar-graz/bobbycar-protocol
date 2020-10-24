@@ -119,4 +119,67 @@ uint16_t calculateChecksum(Feedback feedback) {
            feedback.timeoutCntSerial;
 }
 
+
+#define ASSERT_LAYOUT(st, memb, off) \
+  static_assert(offsetof(st, memb) == off, "struct layout wrong");
+
+ASSERT_LAYOUT(Feedback, start, 0);
+ASSERT_LAYOUT(Feedback, left, 2);
+ASSERT_LAYOUT(Feedback, left.angle, 2);
+ASSERT_LAYOUT(Feedback, left.speed, 4);
+ASSERT_LAYOUT(Feedback, left.error, 6);
+ASSERT_LAYOUT(Feedback, left.current, 8);
+ASSERT_LAYOUT(Feedback, left.chops, 10);
+ASSERT_LAYOUT(Feedback, left.hallA, 12);
+ASSERT_LAYOUT(Feedback, left.hallB, 13);
+ASSERT_LAYOUT(Feedback, left.hallC, 14);
+
+ASSERT_LAYOUT(Feedback, right, 16);
+ASSERT_LAYOUT(Feedback, right.angle, 16);
+ASSERT_LAYOUT(Feedback, right.speed, 18);
+ASSERT_LAYOUT(Feedback, right.error, 20);
+ASSERT_LAYOUT(Feedback, right.current, 22);
+ASSERT_LAYOUT(Feedback, right.chops, 24);
+ASSERT_LAYOUT(Feedback, right.hallA, 26);
+ASSERT_LAYOUT(Feedback, right.hallB, 27);
+ASSERT_LAYOUT(Feedback, right.hallC, 28);
+
+ASSERT_LAYOUT(Feedback, batVoltage, 30);
+ASSERT_LAYOUT(Feedback, boardTemp, 32);
+ASSERT_LAYOUT(Feedback, timeoutCntSerial, 34);
+ASSERT_LAYOUT(Feedback, checksum, 36);
+
+static_assert(sizeof(Command) == 32, "sizeof(Command) wrong");
+
+ASSERT_LAYOUT(Command, start, 0);
+
+ASSERT_LAYOUT(Command, left, 2);
+ASSERT_LAYOUT(Command, left.enable, 2);
+ASSERT_LAYOUT(Command, left.pwm, 4);
+ASSERT_LAYOUT(Command, left.ctrlTyp, 6);
+ASSERT_LAYOUT(Command, left.ctrlMod, 7);
+ASSERT_LAYOUT(Command, left.iMotMax, 8);
+ASSERT_LAYOUT(Command, left.iDcMax, 9);
+ASSERT_LAYOUT(Command, left.nMotMax, 10);
+ASSERT_LAYOUT(Command, left.fieldWeakMax, 12);
+ASSERT_LAYOUT(Command, left.phaseAdvMax, 13);
+
+ASSERT_LAYOUT(Command, right.enable, 14);
+ASSERT_LAYOUT(Command, right.pwm, 16);
+ASSERT_LAYOUT(Command, right.ctrlTyp, 18);
+ASSERT_LAYOUT(Command, right.ctrlMod, 19);
+ASSERT_LAYOUT(Command, right.iMotMax, 20);
+ASSERT_LAYOUT(Command, right.iDcMax, 21);
+ASSERT_LAYOUT(Command, right.nMotMax, 22);
+ASSERT_LAYOUT(Command, right.fieldWeakMax, 24);
+ASSERT_LAYOUT(Command, right.phaseAdvMax, 25);
+
+ASSERT_LAYOUT(Command, buzzer, 26);
+ASSERT_LAYOUT(Command, buzzer.freq, 26);
+ASSERT_LAYOUT(Command, buzzer.pattern, 27);
+
+ASSERT_LAYOUT(Command, poweroff, 28);
+ASSERT_LAYOUT(Command, led, 29);
+ASSERT_LAYOUT(Command, checksum, 30);
+
 }
