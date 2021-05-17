@@ -23,6 +23,22 @@ enum { //                         ....vvvvv
     MotorControllerTemp =       0b00000101000
 };
 
+enum { //                         ....vvvvv
+    MotorControllerEnable =     0b00000000000,
+    MotorControllerInpTgt =     0b00000000100,
+    MotorControllerCtrlTyp =    0b00000001000,
+    MotorControllerCtrlMod =    0b00000001100,
+    MotorControllerIMotMax =    0b00000010000,
+    MotorControllerIDcMax =     0b00000010100,
+    MotorControllerNMotMax =    0b00000011000,
+    MotorControllerFieldWeakMax=0b00000011100,
+    MotorControllerPhaseAdvMax =0b00000100000,
+    MotorControllerBuzzerFreq = 0b00000100100,
+   MotorControllerBuzzerPattern=0b00000101000,
+    MotorControllerLed =        0b00000101100,
+    MotorControllerPoweroff =   0b00000110000
+};
+
 enum { //                         .........v
     MotorControllerFront =      0b00000000000,
     MotorControllerBack =       0b00000000010,
@@ -88,4 +104,71 @@ enum {
     MotorControllerFrontRightTemp = DeviceTypeMotorController | MotorControllerSend | MotorControllerTemp | MotorControllerFront | MotorControllerRight,
     MotorControllerBackLeftTemp = DeviceTypeMotorController | MotorControllerSend | MotorControllerTemp | MotorControllerBack | MotorControllerLeft,
     MotorControllerBackRightTemp = DeviceTypeMotorController | MotorControllerSend | MotorControllerTemp | MotorControllerBack | MotorControllerRight,
+};
+
+enum {
+    MotorControllerFrontLeftEnable = DeviceTypeMotorController | MotorControllerRec | MotorControllerEnable | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightEnable = DeviceTypeMotorController | MotorControllerRec | MotorControllerEnable | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftEnable = DeviceTypeMotorController | MotorControllerRec | MotorControllerEnable | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightEnable = DeviceTypeMotorController | MotorControllerRec | MotorControllerEnable | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftInpTgt = DeviceTypeMotorController | MotorControllerRec | MotorControllerInpTgt | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightInpTgt = DeviceTypeMotorController | MotorControllerRec | MotorControllerInpTgt | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftInpTgt = DeviceTypeMotorController | MotorControllerRec | MotorControllerInpTgt | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightInpTgt = DeviceTypeMotorController | MotorControllerRec | MotorControllerInpTgt | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftCtrlTyp = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlTyp | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightCtrlTyp = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlTyp | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftCtrlTyp = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlTyp | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightCtrlTyp = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlTyp | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftCtrlMod = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlMod | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightCtrlMod = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlMod | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftCtrlMod = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlMod | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightCtrlMod = DeviceTypeMotorController | MotorControllerRec | MotorControllerCtrlMod | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftIMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIMotMax | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightIMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIMotMax | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftIMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIMotMax | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightIMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIMotMax | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftIDcMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIDcMax | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightIDcMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIDcMax | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftIDcMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIDcMax | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightIDcMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerIDcMax | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftNMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerNMotMax | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightNMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerNMotMax | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftNMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerNMotMax | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightNMotMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerNMotMax | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftFieldWeakMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerFieldWeakMax | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightFieldWeakMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerFieldWeakMax | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftFieldWeakMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerFieldWeakMax | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightFieldWeakMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerFieldWeakMax | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftPhaseAdvMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerPhaseAdvMax | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightPhaseAdvMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerPhaseAdvMax | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftPhaseAdvMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerPhaseAdvMax | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightPhaseAdvMax = DeviceTypeMotorController | MotorControllerRec | MotorControllerPhaseAdvMax | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftBuzzerFreq = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerFreq | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightBuzzerFreq = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerFreq | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftBuzzerFreq = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerFreq | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightBuzzerFreq = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerFreq | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftBuzzerPattern = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerPattern | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightBuzzerPattern = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerPattern | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftBuzzerPattern = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerPattern | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightBuzzerPattern = DeviceTypeMotorController | MotorControllerRec | MotorControllerBuzzerPattern | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftLed = DeviceTypeMotorController | MotorControllerRec | MotorControllerLed | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightLed = DeviceTypeMotorController | MotorControllerRec | MotorControllerLed | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftLed = DeviceTypeMotorController | MotorControllerRec | MotorControllerLed | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightLed = DeviceTypeMotorController | MotorControllerRec | MotorControllerLed | MotorControllerBack | MotorControllerRight,
+
+    MotorControllerFrontLeftPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerFront | MotorControllerLeft,
+    MotorControllerFrontRightPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerFront | MotorControllerRight,
+    MotorControllerBackLeftPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerBack | MotorControllerLeft,
+    MotorControllerBackRightPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerBack | MotorControllerRight,
 };
