@@ -1,6 +1,8 @@
 #pragma once
 
-#include "bobbycar-serial.h"
+#include <stdint.h>
+
+#include "bobbycar-common.h"
 
 struct MotorState {
     bool enable = false;
