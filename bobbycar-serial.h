@@ -1,21 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
-namespace {
-
-enum class ControlType : uint8_t {
-    Commutation,
-    Sinusoidal,
-    FieldOrientedControl
-};
-
-enum class ControlMode : uint8_t {
-    OpenMode,
-    Voltage,
-    Speed, // Only with FieldOrientedControl
-    Torque // Only with FieldOrientedControl
-};
+#include "bobbycar-serial.h"
 
 struct MotorState {
     bool enable = false;
@@ -29,7 +14,7 @@ struct MotorState {
     uint8_t phaseAdvMax = 40;              // [deg] Maximum Phase Advance angle (only for SIN). Higher angle results in higher maximum speed.
 };
 
-uint16_t calculateChecksum(MotorState state) {
+inline uint16_t calculateChecksum(MotorState state) {
     return
         uint16_t(state.enable) ^
         state.pwm ^
@@ -47,7 +32,7 @@ struct BuzzerState {
     uint8_t pattern = 0;
 };
 
-uint16_t calculateChecksum(BuzzerState state) {
+inline uint16_t calculateChecksum(BuzzerState state) {
     return state.freq ^ state.pattern;
 }
 
@@ -67,7 +52,7 @@ struct Command {
     uint16_t checksum;
 };
 
-uint16_t calculateChecksum(Command command) {
+inline uint16_t calculateChecksum(Command command) {
     return command.start ^
            calculateChecksum(command.left) ^
            calculateChecksum(command.right) ^
@@ -83,11 +68,11 @@ struct MotorFeedback {
     int16_t   current = 0;
     uint16_t  chops = 0;
     bool      hallA = false,
-              hallB = false,
-              hallC = false;
+        hallB = false,
+        hallC = false;
 };
 
-uint16_t calculateChecksum(MotorFeedback feedback) {
+inline uint16_t calculateChecksum(MotorFeedback feedback) {
     return feedback.angle ^ feedback.speed ^
            feedback.error ^ feedback.current ^
            feedback.chops ^
@@ -110,7 +95,7 @@ struct Feedback {
     uint16_t checksum;
 };
 
-uint16_t calculateChecksum(Feedback feedback) {
+inline uint16_t calculateChecksum(Feedback feedback) {
     return feedback.start ^
            calculateChecksum(feedback.left) ^
            calculateChecksum(feedback.right) ^
@@ -121,7 +106,7 @@ uint16_t calculateChecksum(Feedback feedback) {
 
 
 #define ASSERT_LAYOUT(st, memb, off) \
-  static_assert(offsetof(st, memb) == off, "struct layout wrong");
+static_assert(offsetof(st, memb) == off, "struct layout wrong");
 
 ASSERT_LAYOUT(Feedback, start, 0);
 ASSERT_LAYOUT(Feedback, left, 2);
@@ -181,5 +166,3 @@ ASSERT_LAYOUT(Command, buzzer.pattern, 27);
 ASSERT_LAYOUT(Command, poweroff, 28);
 ASSERT_LAYOUT(Command, led, 29);
 ASSERT_LAYOUT(Command, checksum, 30);
-
-}
