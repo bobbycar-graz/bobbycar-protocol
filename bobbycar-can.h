@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 enum { //                         vv
     DeviceTypeMotorController = 0b00000000000
 };
@@ -172,3 +174,107 @@ enum {
     MotorControllerBackLeftPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerBack | MotorControllerLeft,
     MotorControllerBackRightPoweroff = DeviceTypeMotorController | MotorControllerRec | MotorControllerPoweroff | MotorControllerBack | MotorControllerRight,
 };
+
+inline const char *bobbycarCanIdDesc(uint16_t id)
+{
+    switch (id)
+    {
+    case MotorControllerFrontLeftEnable: return "MotorControllerFrontLeftEnable";
+    case MotorControllerFrontRightEnable: return "MotorControllerFrontRightEnable";
+    case MotorControllerBackLeftEnable: return "MotorControllerBackLeftEnable";
+    case MotorControllerBackRightEnable: return "MotorControllerBackRightEnable";
+    case MotorControllerFrontLeftInpTgt: return "MotorControllerFrontLeftInpTgt";
+    case MotorControllerFrontRightInpTgt: return "MotorControllerFrontRightInpTgt";
+    case MotorControllerBackLeftInpTgt: return "MotorControllerBackLeftInpTgt";
+    case MotorControllerBackRightInpTgt: return "MotorControllerBackRightInpTgt";
+    case MotorControllerFrontLeftCtrlTyp: return "MotorControllerFrontLeftCtrlTyp";
+    case MotorControllerFrontRightCtrlTyp: return "MotorControllerFrontRightCtrlTyp";
+    case MotorControllerBackLeftCtrlTyp: return "MotorControllerBackLeftCtrlTyp";
+    case MotorControllerBackRightCtrlTyp: return "MotorControllerBackRightCtrlTyp";
+    case MotorControllerFrontLeftCtrlMod: return "MotorControllerFrontLeftCtrlMod";
+    case MotorControllerFrontRightCtrlMod: return "MotorControllerFrontRightCtrlMod";
+    case MotorControllerBackLeftCtrlMod: return "MotorControllerBackLeftCtrlMod";
+    case MotorControllerBackRightCtrlMod: return "MotorControllerBackRightCtrlMod";
+    case MotorControllerFrontLeftIMotMax: return "MotorControllerFrontLeftIMotMax";
+    case MotorControllerFrontRightIMotMax: return "MotorControllerFrontRightIMotMax";
+    case MotorControllerBackLeftIMotMax: return "MotorControllerBackLeftIMotMax";
+    case MotorControllerBackRightIMotMax: return "MotorControllerBackRightIMotMax";
+    case MotorControllerFrontLeftIDcMax: return "MotorControllerFrontLeftIDcMax";
+    case MotorControllerFrontRightIDcMax: return "MotorControllerFrontRightIDcMax";
+    case MotorControllerBackLeftIDcMax: return "MotorControllerBackLeftIDcMax";
+    case MotorControllerBackRightIDcMax: return "MotorControllerBackRightIDcMax";
+    case MotorControllerFrontLeftNMotMax: return "MotorControllerFrontLeftNMotMax";
+    case MotorControllerFrontRightNMotMax: return "MotorControllerFrontRightNMotMax";
+    case MotorControllerBackLeftNMotMax: return "MotorControllerBackLeftNMotMax";
+    case MotorControllerBackRightNMotMax: return "MotorControllerBackRightNMotMax";
+    case MotorControllerFrontLeftFieldWeakMax: return "MotorControllerFrontLeftFieldWeakMax";
+    case MotorControllerFrontRightFieldWeakMax: return "MotorControllerFrontRightFieldWeakMax";
+    case MotorControllerBackLeftFieldWeakMax: return "MotorControllerBackLeftFieldWeakMax";
+    case MotorControllerBackRightFieldWeakMax: return "MotorControllerBackRightFieldWeakMax";
+    case MotorControllerFrontLeftPhaseAdvMax: return "MotorControllerFrontLeftPhaseAdvMax";
+    case MotorControllerFrontRightPhaseAdvMax: return "MotorControllerFrontRightPhaseAdvMax";
+    case MotorControllerBackLeftPhaseAdvMax: return "MotorControllerBackLeftPhaseAdvMax";
+    case MotorControllerBackRightPhaseAdvMax: return "MotorControllerBackRightPhaseAdvMax";
+    case MotorControllerFrontLeftBuzzerFreq: return "MotorControllerFrontLeftBuzzerFreq";
+    case MotorControllerFrontRightBuzzerFreq: return "MotorControllerFrontRightBuzzerFreq";
+    case MotorControllerBackLeftBuzzerFreq: return "MotorControllerBackLeftBuzzerFreq";
+    case MotorControllerBackRightBuzzerFreq: return "MotorControllerBackRightBuzzerFreq";
+    case MotorControllerFrontLeftBuzzerPattern: return "MotorControllerFrontLeftBuzzerPattern";
+    case MotorControllerFrontRightBuzzerPattern: return "MotorControllerFrontRightBuzzerPattern";
+    case MotorControllerBackLeftBuzzerPattern: return "MotorControllerBackLeftBuzzerPattern";
+    case MotorControllerBackRightBuzzerPattern: return "MotorControllerBackRightBuzzerPattern";
+    case MotorControllerFrontLeftLed: return "MotorControllerFrontLeftLed";
+    case MotorControllerFrontRightLed: return "MotorControllerFrontRightLed";
+    case MotorControllerBackLeftLed: return "MotorControllerBackLeftLed";
+    case MotorControllerBackRightLed: return "MotorControllerBackRightLed";
+    case MotorControllerFrontLeftPoweroff: return "MotorControllerFrontLeftPoweroff";
+    case MotorControllerFrontRightPoweroff: return "MotorControllerFrontRightPoweroff";
+    case MotorControllerBackLeftPoweroff: return "MotorControllerBackLeftPoweroff";
+    case MotorControllerBackRightPoweroff: return "MotorControllerBackRightPoweroff";
+    case MotorControllerFrontLeftDcLink: return "MotorControllerFrontLeftDcLink";
+    case MotorControllerFrontRightDcLink: return "MotorControllerFrontRightDcLink";
+    case MotorControllerBackLeftDcLink: return "MotorControllerBackLeftDcLink";
+    case MotorControllerBackRightDcLink: return "MotorControllerBackRightDcLink";
+    case MotorControllerFrontLeftSpeed: return "MotorControllerFrontLeftSpeed";
+    case MotorControllerFrontRightSpeed: return "MotorControllerFrontRightSpeed";
+    case MotorControllerBackLeftSpeed: return "MotorControllerBackLeftSpeed";
+    case MotorControllerBackRightSpeed: return "MotorControllerBackRightSpeed";
+    case MotorControllerFrontLeftError: return "MotorControllerFrontLeftError";
+    case MotorControllerFrontRightError: return "MotorControllerFrontRightError";
+    case MotorControllerBackLeftError: return "MotorControllerBackLeftError";
+    case MotorControllerBackRightError: return "MotorControllerBackRightError";
+    case MotorControllerFrontLeftAngle: return "MotorControllerFrontLeftAngle";
+    case MotorControllerFrontRightAngle: return "MotorControllerFrontRightAngle";
+    case MotorControllerBackLeftAngle: return "MotorControllerBackLeftAngle";
+    case MotorControllerBackRightAngle: return "MotorControllerBackRightAngle";
+    case MotorControllerFrontLeftDcPhaA: return "MotorControllerFrontLeftDcPhaA";
+    case MotorControllerFrontRightDcPhaA: return "MotorControllerFrontRightDcPhaA";
+    case MotorControllerBackLeftDcPhaA: return "MotorControllerBackLeftDcPhaA";
+    case MotorControllerBackRightDcPhaA: return "MotorControllerBackRightDcPhaA";
+    case MotorControllerFrontLeftDcPhaB: return "MotorControllerFrontLeftDcPhaB";
+    case MotorControllerFrontRightDcPhaB: return "MotorControllerFrontRightDcPhaB";
+    case MotorControllerBackLeftDcPhaB: return "MotorControllerBackLeftDcPhaB";
+    case MotorControllerBackRightDcPhaB: return "MotorControllerBackRightDcPhaB";
+    case MotorControllerFrontLeftDcPhaC: return "MotorControllerFrontLeftDcPhaC";
+    case MotorControllerFrontRightDcPhaC: return "MotorControllerFrontRightDcPhaC";
+    case MotorControllerBackLeftDcPhaC: return "MotorControllerBackLeftDcPhaC";
+    case MotorControllerBackRightDcPhaC: return "MotorControllerBackRightDcPhaC";
+    case MotorControllerFrontLeftChops: return "MotorControllerFrontLeftChops";
+    case MotorControllerFrontRightChops: return "MotorControllerFrontRightChops";
+    case MotorControllerBackLeftChops: return "MotorControllerBackLeftChops";
+    case MotorControllerBackRightChops: return "MotorControllerBackRightChops";
+    case MotorControllerFrontLeftHall: return "MotorControllerFrontLeftHall";
+    case MotorControllerFrontRightHall: return "MotorControllerFrontRightHall";
+    case MotorControllerBackLeftHall: return "MotorControllerBackLeftHall";
+    case MotorControllerBackRightHall: return "MotorControllerBackRightHall";
+    case MotorControllerFrontLeftVoltage: return "MotorControllerFrontLeftVoltage";
+    case MotorControllerFrontRightVoltage: return "MotorControllerFrontRightVoltage";
+    case MotorControllerBackLeftVoltage: return "MotorControllerBackLeftVoltage";
+    case MotorControllerBackRightVoltage: return "MotorControllerBackRightVoltage";
+    case MotorControllerFrontLeftTemp: return "MotorControllerFrontLeftTemp";
+    case MotorControllerFrontRightTemp: return "MotorControllerFrontRightTemp";
+    case MotorControllerBackLeftTemp: return "MotorControllerBackLeftTemp";
+    case MotorControllerBackRightTemp: return "MotorControllerBackRightTemp";
+    }
+    return "Unknown";
+}
