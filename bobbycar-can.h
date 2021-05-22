@@ -58,10 +58,12 @@ public:
             NMotMax =       0b00000011000 | MotorControllerCommandMask,
             FieldWeakMax =  0b00000011100 | MotorControllerCommandMask,
             PhaseAdvMax =   0b00000100000 | MotorControllerCommandMask,
-            BuzzerFreq =    0b00000100100 | MotorControllerCommandMask,
-            BuzzerPattern = 0b00000101000 | MotorControllerCommandMask,
-            Led =           0b00000101100 | MotorControllerCommandMask,
-            Poweroff =      0b00000110000 | MotorControllerCommandMask
+            CruiseCtrlEna = 0b00000100100 | MotorControllerCommandMask,
+            CruiseMotTgt =  0b00000101000 | MotorControllerCommandMask,
+            BuzzerFreq =    0b00000101100 | MotorControllerCommandMask,
+            BuzzerPattern = 0b00000110000 | MotorControllerCommandMask,
+            Led =           0b00000110100 | MotorControllerCommandMask,
+            Poweroff =      0b00000111000 | MotorControllerCommandMask
         };
     };
 
