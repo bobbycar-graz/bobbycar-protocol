@@ -6,17 +6,18 @@ namespace bobbycar {
 namespace protocol {
 namespace can {
 
+enum : uint16_t { //              vvv
+    DeviceTypeMotorController = 0b00000000000,
+    DeviceTypeBoardcomputer =   0b00100000000
+};
+
 template<bool isBack, bool isRight>
 class MotorController
 {
 private:
-    enum : uint16_t { //              vvv
-        DeviceTypeMotorController = 0b00000000000
-    };
-
     enum : uint16_t { //              ...v
-        MotorControllerCommand =    0b00000000000,
-        MotorControllerFeedback =   0b00010000000,
+        MotorControllerCommand =    0b00000000000, // send only TO the motor controller
+        MotorControllerFeedback =   0b00010000000, // send only FROM the motor controller
     };
 
     enum : uint16_t { //              .........v
@@ -40,7 +41,9 @@ public:
     MotorController() = delete;
     ~MotorController() = delete;
 
-    class Command {
+    // send only TO the motor controller
+    class Command
+    {
     private:
         enum : uint16_t {
             MotorControllerCommandMask =
@@ -71,7 +74,9 @@ public:
         };
     };
 
-    class Feedback {
+    // send only FROM the motor controller
+    class Feedback
+    {
     private:
         enum : uint16_t {
             MotorControllerFeedbackMask =
@@ -99,106 +104,174 @@ public:
     };
 };
 
+class Boardcomputer
+{
+private:
+    enum : uint16_t { //            ...v
+        BoardcomputerCommand =    0b00000000000, // send only TO the boardcomputer
+        BoardcomputerFeedback =   0b00010000000, // send only FROM the boardcomputer
+    };
+
+public:
+    Boardcomputer() = delete;
+    ~Boardcomputer() = delete;
+
+    enum {
+        ButtonUp       = 1,
+        ButtonDown     = 2,
+        ButtonConfirm  = 4,
+        ButtonBack     = 8,
+        ButtonProfile0 = 16,
+        ButtonProfile1 = 32,
+        ButtonProfile2 = 64,
+        ButtonProfile3 = 128,
+    };
+
+    // send only TO the boardcomputer
+    class Command
+    {
+    private:
+        enum : uint16_t {
+            BoardcomputerCommandMask =
+                uint16_t(DeviceTypeBoardcomputer) |
+                uint16_t(BoardcomputerCommand)
+        };
+
+    public:
+        Command() = delete;
+        ~Command() = delete;
+
+        enum : uint16_t { // ....vvvvvvv
+            ButtonPress =  0b00000000000 | BoardcomputerCommandMask,
+            RawGas      =  0b00000000001 | BoardcomputerCommandMask,
+            RawBrems    =  0b00000000010 | BoardcomputerCommandMask
+        };
+    };
+
+    // send only FROM the boardcomputer
+    class Feedback
+    {
+    private:
+        enum : uint16_t {
+            BoardcomputerFeedbackMask =
+                uint16_t(DeviceTypeBoardcomputer) |
+                uint16_t(BoardcomputerFeedback)
+        };
+
+    public:
+        Feedback() = delete;
+        ~Feedback() = delete;
+
+        enum : uint16_t { //  ....vvvvvvv
+            ButtonLeds =    0b00000000000 | BoardcomputerFeedbackMask,
+        };
+    };
+};
+
 inline const char *bobbycarCanIdDesc(uint16_t id)
 {
     switch (id)
     {
-    case MotorController<false, false>::Command::Enable: return "Enable (Command, Front, Left)";
-    case MotorController<false, true>::Command::Enable: return "Enable (Command, Front, Right)";
-    case MotorController<true, false>::Command::Enable: return "Enable (Command, Back, Left)";
-    case MotorController<true, true>::Command::Enable: return "Enable (Command, Back, Right)";
-    case MotorController<false, false>::Command::InpTgt: return "InpTgt (Command, Front, Left)";
-    case MotorController<false, true>::Command::InpTgt: return "InpTgt (Command, Front, Right)";
-    case MotorController<true, false>::Command::InpTgt: return "InpTgt (Command, Back, Left)";
-    case MotorController<true, true>::Command::InpTgt: return "InpTgt (Command, Back, Right)";
-    case MotorController<false, false>::Command::CtrlTyp: return "CtrlTyp (Command, Front, Left)";
-    case MotorController<false, true>::Command::CtrlTyp: return "CtrlTyp (Command, Front, Right)";
-    case MotorController<true, false>::Command::CtrlTyp: return "CtrlTyp (Command, Back, Left)";
-    case MotorController<true, true>::Command::CtrlTyp: return "CtrlTyp (Command, Back, Right)";
-    case MotorController<false, false>::Command::CtrlMod: return "CtrlMod (Command, Front, Left)";
-    case MotorController<false, true>::Command::CtrlMod: return "CtrlMod (Command, Front, Right)";
-    case MotorController<true, false>::Command::CtrlMod: return "CtrlMod (Command, Back, Left)";
-    case MotorController<true, true>::Command::CtrlMod: return "CtrlMod (Command, Back, Right)";
-    case MotorController<false, false>::Command::IMotMax: return "IMotMax (Command, Front, Left)";
-    case MotorController<false, true>::Command::IMotMax: return "IMotMax (Command, Front, Right)";
-    case MotorController<true, false>::Command::IMotMax: return "IMotMax (Command, Back, Left)";
-    case MotorController<true, true>::Command::IMotMax: return "IMotMax (Command, Back, Right)";
-    case MotorController<false, false>::Command::IDcMax: return "IDcMax (Command, Front, Left)";
-    case MotorController<false, true>::Command::IDcMax: return "IDcMax (Command, Front, Right)";
-    case MotorController<true, false>::Command::IDcMax: return "IDcMax (Command, Back, Left)";
-    case MotorController<true, true>::Command::IDcMax: return "IDcMax (Command, Back, Right)";
-    case MotorController<false, false>::Command::NMotMax: return "NMotMax (Command, Front, Left)";
-    case MotorController<false, true>::Command::NMotMax: return "NMotMax (Command, Front, Right)";
-    case MotorController<true, false>::Command::NMotMax: return "NMotMax (Command, Back, Left)";
-    case MotorController<true, true>::Command::NMotMax: return "NMotMax (Command, Back, Right)";
-    case MotorController<false, false>::Command::FieldWeakMax: return "FieldWeakMax (Command, Front, Left)";
-    case MotorController<false, true>::Command::FieldWeakMax: return "FieldWeakMax (Command, Front, Right)";
-    case MotorController<true, false>::Command::FieldWeakMax: return "FieldWeakMax (Command, Back, Left)";
-    case MotorController<true, true>::Command::FieldWeakMax: return "FieldWeakMax (Command, Back, Right)";
-    case MotorController<false, false>::Command::PhaseAdvMax: return "PhaseAdvMax (Command, Front, Left)";
-    case MotorController<false, true>::Command::PhaseAdvMax: return "PhaseAdvMax (Command, Front, Right)";
-    case MotorController<true, false>::Command::PhaseAdvMax: return "PhaseAdvMax (Command, Back, Left)";
-    case MotorController<true, true>::Command::PhaseAdvMax: return "PhaseAdvMax (Command, Back, Right)";
-    case MotorController<false, false>::Command::BuzzerFreq: return "BuzzerFreq (Command, Front, Left)";
-    case MotorController<false, true>::Command::BuzzerFreq: return "BuzzerFreq (Command, Front, Right)";
-    case MotorController<true, false>::Command::BuzzerFreq: return "BuzzerFreq (Command, Back, Left)";
-    case MotorController<true, true>::Command::BuzzerFreq: return "BuzzerFreq (Command, Back, Right)";
-    case MotorController<false, false>::Command::BuzzerPattern: return "BuzzerPattern (Command, Front, Left)";
-    case MotorController<false, true>::Command::BuzzerPattern: return "BuzzerPattern (Command, Front, Right)";
-    case MotorController<true, false>::Command::BuzzerPattern: return "BuzzerPattern (Command, Back, Left)";
-    case MotorController<true, true>::Command::BuzzerPattern: return "BuzzerPattern (Command, Back, Right)";
-    case MotorController<false, false>::Command::Led: return "Led (Command, Front, Left)";
-    case MotorController<false, true>::Command::Led: return "Led (Command, Front, Right)";
-    case MotorController<true, false>::Command::Led: return "Led (Command, Back, Left)";
-    case MotorController<true, true>::Command::Led: return "Led (Command, Back, Right)";
-    case MotorController<false, false>::Command::Poweroff: return "Poweroff (Command, Front, Left)";
-    case MotorController<false, true>::Command::Poweroff: return "Poweroff (Command, Front, Right)";
-    case MotorController<true, false>::Command::Poweroff: return "Poweroff (Command, Back, Left)";
-    case MotorController<true, true>::Command::Poweroff: return "Poweroff (Command, Back, Right)";
-    case MotorController<false, false>::Feedback::DcLink: return "DcLink (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::DcLink: return "DcLink (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::DcLink: return "DcLink (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::DcLink: return "DcLink (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Speed: return "Speed (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Speed: return "Speed (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Speed: return "Speed (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Speed: return "Speed (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Error: return "Error (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Error: return "Error (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Error: return "Error (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Error: return "Error (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Angle: return "Angle (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Angle: return "Angle (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Angle: return "Angle (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Angle: return "Angle (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::DcPhaA: return "DcPhaA (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::DcPhaA: return "DcPhaA (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::DcPhaA: return "DcPhaA (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::DcPhaA: return "DcPhaA (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::DcPhaB: return "DcPhaB (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::DcPhaB: return "DcPhaB (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::DcPhaB: return "DcPhaB (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::DcPhaB: return "DcPhaB (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::DcPhaC: return "DcPhaC (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::DcPhaC: return "DcPhaC (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::DcPhaC: return "DcPhaC (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::DcPhaC: return "DcPhaC (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Chops: return "Chops (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Chops: return "Chops (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Chops: return "Chops (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Chops: return "Chops (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Hall: return "Hall (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Hall: return "Hall (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Hall: return "Hall (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Hall: return "Hall (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Voltage: return "Voltage (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Voltage: return "Voltage (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Voltage: return "Voltage (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Voltage: return "Voltage (Feedback, Back, Right)";
-    case MotorController<false, false>::Feedback::Temp: return "Temp (Feedback, Front, Left)";
-    case MotorController<false, true>::Feedback::Temp: return "Temp (Feedback, Front, Right)";
-    case MotorController<true, false>::Feedback::Temp: return "Temp (Feedback, Back, Left)";
-    case MotorController<true, true>::Feedback::Temp: return "Temp (Feedback, Back, Right)";
+    case MotorController<false, false>::Command::Enable: return "Enable (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::Enable: return "Enable (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::Enable: return "Enable (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::Enable: return "Enable (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::InpTgt: return "InpTgt (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::InpTgt: return "InpTgt (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::InpTgt: return "InpTgt (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::InpTgt: return "InpTgt (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::CtrlTyp: return "CtrlTyp (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::CtrlTyp: return "CtrlTyp (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::CtrlTyp: return "CtrlTyp (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::CtrlTyp: return "CtrlTyp (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::CtrlMod: return "CtrlMod (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::CtrlMod: return "CtrlMod (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::CtrlMod: return "CtrlMod (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::CtrlMod: return "CtrlMod (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::IMotMax: return "IMotMax (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::IMotMax: return "IMotMax (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::IMotMax: return "IMotMax (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::IMotMax: return "IMotMax (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::IDcMax: return "IDcMax (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::IDcMax: return "IDcMax (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::IDcMax: return "IDcMax (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::IDcMax: return "IDcMax (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::NMotMax: return "NMotMax (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::NMotMax: return "NMotMax (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::NMotMax: return "NMotMax (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::NMotMax: return "NMotMax (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::FieldWeakMax: return "FieldWeakMax (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::FieldWeakMax: return "FieldWeakMax (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::FieldWeakMax: return "FieldWeakMax (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::FieldWeakMax: return "FieldWeakMax (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::PhaseAdvMax: return "PhaseAdvMax (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::PhaseAdvMax: return "PhaseAdvMax (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::PhaseAdvMax: return "PhaseAdvMax (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::PhaseAdvMax: return "PhaseAdvMax (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::BuzzerFreq: return "BuzzerFreq (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::BuzzerFreq: return "BuzzerFreq (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::BuzzerFreq: return "BuzzerFreq (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::BuzzerFreq: return "BuzzerFreq (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::BuzzerPattern: return "BuzzerPattern (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::BuzzerPattern: return "BuzzerPattern (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::BuzzerPattern: return "BuzzerPattern (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::BuzzerPattern: return "BuzzerPattern (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::Led: return "Led (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::Led: return "Led (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::Led: return "Led (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::Led: return "Led (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Command::Poweroff: return "Poweroff (MotorController, Command, Front, Left)";
+    case MotorController<false, true>::Command::Poweroff: return "Poweroff (MotorController, Command, Front, Right)";
+    case MotorController<true, false>::Command::Poweroff: return "Poweroff (MotorController, Command, Back, Left)";
+    case MotorController<true, true>::Command::Poweroff: return "Poweroff (MotorController, Command, Back, Right)";
+    case MotorController<false, false>::Feedback::DcLink: return "DcLink (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::DcLink: return "DcLink (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::DcLink: return "DcLink (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::DcLink: return "DcLink (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Speed: return "Speed (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Speed: return "Speed (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Speed: return "Speed (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Speed: return "Speed (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Error: return "Error (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Error: return "Error (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Error: return "Error (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Error: return "Error (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Angle: return "Angle (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Angle: return "Angle (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Angle: return "Angle (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Angle: return "Angle (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::DcPhaA: return "DcPhaA (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::DcPhaA: return "DcPhaA (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::DcPhaA: return "DcPhaA (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::DcPhaA: return "DcPhaA (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::DcPhaB: return "DcPhaB (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::DcPhaB: return "DcPhaB (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::DcPhaB: return "DcPhaB (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::DcPhaB: return "DcPhaB (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::DcPhaC: return "DcPhaC (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::DcPhaC: return "DcPhaC (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::DcPhaC: return "DcPhaC (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::DcPhaC: return "DcPhaC (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Chops: return "Chops (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Chops: return "Chops (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Chops: return "Chops (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Chops: return "Chops (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Hall: return "Hall (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Hall: return "Hall (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Hall: return "Hall (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Hall: return "Hall (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Voltage: return "Voltage (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Voltage: return "Voltage (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Voltage: return "Voltage (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Voltage: return "Voltage (MotorController, Feedback, Back, Right)";
+    case MotorController<false, false>::Feedback::Temp: return "Temp (MotorController, Feedback, Front, Left)";
+    case MotorController<false, true>::Feedback::Temp: return "Temp (MotorController, Feedback, Front, Right)";
+    case MotorController<true, false>::Feedback::Temp: return "Temp (MotorController, Feedback, Back, Left)";
+    case MotorController<true, true>::Feedback::Temp: return "Temp (MotorController, Feedback, Back, Right)";
+    case Boardcomputer::Command::ButtonPress: return "ButtonPress (Boardcomputer, Command)";
+    case Boardcomputer::Command::RawGas: return "RawGas (Boardcomputer, Command)";
+    case Boardcomputer::Command::RawBrems: return "RawBrems (Boardcomputer, Command)";
+    case Boardcomputer::Feedback::ButtonLeds: return "ButtonLeds (Boardcomputer, Feedback)";
     }
     return "Unknown";
 }
