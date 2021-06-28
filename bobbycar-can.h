@@ -3,7 +3,9 @@
 #include <cstdint>
 
 namespace bobbycar {
+namespace protocol {
 namespace can {
+
 template<bool isBack, bool isRight>
 class MotorController
 {
@@ -196,5 +198,7 @@ inline const char *bobbycarCanIdDesc(uint16_t id)
     }
     return "Unknown";
 }
-}
-}
+
+} // namespace can
+} // namespace protocol
+} // namespace bobbycar

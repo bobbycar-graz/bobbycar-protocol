@@ -4,6 +4,10 @@
 
 #include "bobbycar-common.h"
 
+namespace bobbycar {
+namespace protocol {
+namespace serial {
+
 struct MotorState {
     bool enable = false;
     int16_t pwm = 0;
@@ -67,7 +71,10 @@ struct MotorFeedback {
     int16_t   angle = 0;
     int16_t   speed = 0;
     uint8_t   error = 0;
-    int16_t   current = 0;
+    int16_t   dcLink = 0;
+    int16_t   dcPhaA = 0;
+    int16_t   dcPhaB = 0;
+    int16_t   dcPhaC = 0;
     uint16_t  chops = 0;
     bool      hallA = false;
     bool      hallB = false;
@@ -76,8 +83,9 @@ struct MotorFeedback {
 
 inline uint16_t calculateChecksum(MotorFeedback feedback) {
     return feedback.angle ^ feedback.speed ^
-           feedback.error ^ feedback.current ^
-           feedback.chops ^
+           feedback.error ^ feedback.dcLink ^
+           feedback.dcPhaA ^ feedback.dcPhaB ^
+           feedback.dcPhaC ^ feedback.chops ^
            feedback.hallA ^ feedback.hallB ^ feedback.hallC;
 }
 
@@ -108,33 +116,39 @@ inline uint16_t calculateChecksum(Feedback feedback) {
 
 
 #define ASSERT_LAYOUT(st, memb, off) \
-static_assert(offsetof(st, memb) == off, "struct layout wrong");
+    static_assert(offsetof(st, memb) == off, "struct layout wrong");
 
 ASSERT_LAYOUT(Feedback, start, 0);
 ASSERT_LAYOUT(Feedback, left, 2);
 ASSERT_LAYOUT(Feedback, left.angle, 2);
 ASSERT_LAYOUT(Feedback, left.speed, 4);
 ASSERT_LAYOUT(Feedback, left.error, 6);
-ASSERT_LAYOUT(Feedback, left.current, 8);
-ASSERT_LAYOUT(Feedback, left.chops, 10);
-ASSERT_LAYOUT(Feedback, left.hallA, 12);
-ASSERT_LAYOUT(Feedback, left.hallB, 13);
-ASSERT_LAYOUT(Feedback, left.hallC, 14);
+ASSERT_LAYOUT(Feedback, left.dcLink, 8);
+ASSERT_LAYOUT(Feedback, left.dcPhaA, 10);
+ASSERT_LAYOUT(Feedback, left.dcPhaB, 12);
+ASSERT_LAYOUT(Feedback, left.dcPhaC, 14);
+ASSERT_LAYOUT(Feedback, left.chops, 16);
+ASSERT_LAYOUT(Feedback, left.hallA, 18);
+ASSERT_LAYOUT(Feedback, left.hallB, 19);
+ASSERT_LAYOUT(Feedback, left.hallC, 20);
 
-ASSERT_LAYOUT(Feedback, right, 16);
-ASSERT_LAYOUT(Feedback, right.angle, 16);
-ASSERT_LAYOUT(Feedback, right.speed, 18);
-ASSERT_LAYOUT(Feedback, right.error, 20);
-ASSERT_LAYOUT(Feedback, right.current, 22);
-ASSERT_LAYOUT(Feedback, right.chops, 24);
-ASSERT_LAYOUT(Feedback, right.hallA, 26);
-ASSERT_LAYOUT(Feedback, right.hallB, 27);
-ASSERT_LAYOUT(Feedback, right.hallC, 28);
+ASSERT_LAYOUT(Feedback, right, 22);
+ASSERT_LAYOUT(Feedback, right.angle, 22);
+ASSERT_LAYOUT(Feedback, right.speed, 24);
+ASSERT_LAYOUT(Feedback, right.error, 26);
+ASSERT_LAYOUT(Feedback, right.dcLink, 28);
+ASSERT_LAYOUT(Feedback, right.dcPhaA, 30);
+ASSERT_LAYOUT(Feedback, right.dcPhaB, 32);
+ASSERT_LAYOUT(Feedback, right.dcPhaC, 34);
+ASSERT_LAYOUT(Feedback, right.chops, 36);
+ASSERT_LAYOUT(Feedback, right.hallA, 38);
+ASSERT_LAYOUT(Feedback, right.hallB, 39);
+ASSERT_LAYOUT(Feedback, right.hallC, 40);
 
-ASSERT_LAYOUT(Feedback, batVoltage, 30);
-ASSERT_LAYOUT(Feedback, boardTemp, 32);
-ASSERT_LAYOUT(Feedback, timeoutCntSerial, 34);
-ASSERT_LAYOUT(Feedback, checksum, 36);
+ASSERT_LAYOUT(Feedback, batVoltage, 42);
+ASSERT_LAYOUT(Feedback, boardTemp, 44);
+ASSERT_LAYOUT(Feedback, timeoutCntSerial, 46);
+ASSERT_LAYOUT(Feedback, checksum, 48);
 
 static_assert(sizeof(Command) == 32, "sizeof(Command) wrong");
 
@@ -168,3 +182,7 @@ ASSERT_LAYOUT(Command, buzzer.pattern, 27);
 ASSERT_LAYOUT(Command, poweroff, 28);
 ASSERT_LAYOUT(Command, led, 29);
 ASSERT_LAYOUT(Command, checksum, 30);
+
+} // namespace serial
+} // namespace protocol
+} // namespace bobbycar
