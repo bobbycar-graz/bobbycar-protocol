@@ -10,30 +10,30 @@ template<bool isBack, bool isRight>
 class MotorController
 {
 private:
-    enum { //                         vvv
+    enum : uint16_t { //              vvv
         DeviceTypeMotorController = 0b00000000000
     };
 
-    enum { //                         ...v
+    enum : uint16_t { //              ...v
         MotorControllerCommand =    0b00000000000,
         MotorControllerFeedback =   0b00010000000,
     };
 
-    enum { //                         .........v
+    enum : uint16_t { //              .........v
         MotorControllerFront =      0b00000000000,
         MotorControllerBack =       0b00000000010,
     };
 
-    enum { //                         ..........v
+    enum : uint16_t { //              ..........v
         MotorControllerLeft =       0b00000000000,
         MotorControllerRight =      0b00000000001,
     };
 
-    enum {
+    enum : uint16_t {
         MotorControllerMask =
-            DeviceTypeMotorController |
-            (isBack ? MotorControllerBack : MotorControllerFront) |
-            (isRight ? MotorControllerRight : MotorControllerLeft)
+            uint16_t(DeviceTypeMotorController) |
+            uint16_t(isBack ? MotorControllerBack : MotorControllerFront) |
+            uint16_t(isRight ? MotorControllerRight : MotorControllerLeft)
     };
 
 public:
@@ -42,15 +42,17 @@ public:
 
     class Command {
     private:
-        enum {
-            MotorControllerCommandMask = MotorControllerMask | MotorControllerCommand
+        enum : uint16_t {
+            MotorControllerCommandMask =
+                uint16_t(MotorControllerMask) |
+                uint16_t(MotorControllerCommand)
         };
 
     public:
         Command() = delete;
         ~Command() = delete;
 
-        enum { //             ....vvvvv
+        enum : uint16_t { //  ....vvvvv
             Enable =        0b00000000000 | MotorControllerCommandMask,
             InpTgt =        0b00000000100 | MotorControllerCommandMask,
             CtrlTyp =       0b00000001000 | MotorControllerCommandMask,
@@ -71,26 +73,28 @@ public:
 
     class Feedback {
     private:
-        enum {
-            MotorControllerFeedbackMask = MotorControllerMask | MotorControllerFeedback
+        enum : uint16_t {
+            MotorControllerFeedbackMask =
+                uint16_t(MotorControllerMask) |
+                uint16_t(MotorControllerFeedback)
         };
 
     public:
         Feedback() = delete;
         ~Feedback() = delete;
 
-        enum { //          ....vvvvv
-            DcLink =     0b00000000000 | MotorControllerFeedbackMask,
-            Speed =      0b00000000100 | MotorControllerFeedbackMask,
-            Error =      0b00000001000 | MotorControllerFeedbackMask,
-            Angle =      0b00000001100 | MotorControllerFeedbackMask,
-            DcPhaA =     0b00000010000 | MotorControllerFeedbackMask,
-            DcPhaB =     0b00000010100 | MotorControllerFeedbackMask,
-            DcPhaC =     0b00000011000 | MotorControllerFeedbackMask,
-            Chops =      0b00000011100 | MotorControllerFeedbackMask,
-            Hall =       0b00000100000 | MotorControllerFeedbackMask,
-            Voltage =    0b00000100100 | MotorControllerFeedbackMask,
-            Temp =       0b00000101000 | MotorControllerFeedbackMask
+        enum : uint16_t { // ....vvvvv
+            DcLink =       0b00000000000 | MotorControllerFeedbackMask,
+            Speed =        0b00000000100 | MotorControllerFeedbackMask,
+            Error =        0b00000001000 | MotorControllerFeedbackMask,
+            Angle =        0b00000001100 | MotorControllerFeedbackMask,
+            DcPhaA =       0b00000010000 | MotorControllerFeedbackMask,
+            DcPhaB =       0b00000010100 | MotorControllerFeedbackMask,
+            DcPhaC =       0b00000011000 | MotorControllerFeedbackMask,
+            Chops =        0b00000011100 | MotorControllerFeedbackMask,
+            Hall =         0b00000100000 | MotorControllerFeedbackMask,
+            Voltage =      0b00000100100 | MotorControllerFeedbackMask,
+            Temp =         0b00000101000 | MotorControllerFeedbackMask
         };
     };
 };
