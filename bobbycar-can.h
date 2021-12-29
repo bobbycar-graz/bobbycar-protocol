@@ -116,15 +116,20 @@ public:
     Boardcomputer() = delete;
     ~Boardcomputer() = delete;
 
+    // used with ButtonPressed and ButtonReleased
     enum {
-        ButtonUp       = 1,
-        ButtonDown     = 2,
-        ButtonConfirm  = 4,
-        ButtonBack     = 8,
-        ButtonProfile0 = 16,
-        ButtonProfile1 = 32,
-        ButtonProfile2 = 64,
-        ButtonProfile3 = 128,
+        ButtonLeft,
+        ButtonRight,
+        ButtonUp,
+        ButtonDown,
+        ButtonProfile0,
+        ButtonProfile1,
+        ButtonProfile2,
+        ButtonProfile3,
+        ButtonLeft2,
+        ButtonRight2,
+        ButtonUp2,
+        ButtonDown2,
     };
 
     // send only TO the boardcomputer
@@ -141,10 +146,13 @@ public:
         Command() = delete;
         ~Command() = delete;
 
-        enum : uint16_t { // ....vvvvvvv
-            ButtonPress =  0b00000000000 | BoardcomputerCommandMask,
-            RawGas      =  0b00000000001 | BoardcomputerCommandMask,
-            RawBrems    =  0b00000000010 | BoardcomputerCommandMask
+        enum : uint16_t { //      ....vvvvvvv
+            RawButtonPressed  = 0b00000000000 | BoardcomputerCommandMask,
+            RawButtonReleased = 0b00000000001 | BoardcomputerCommandMask,
+            ButtonPressed     = 0b00000000010 | BoardcomputerCommandMask,
+            ButtonReleased    = 0b00000000011 | BoardcomputerCommandMask,
+            RawGas            = 0b00000000100 | BoardcomputerCommandMask,
+            RawBrems          = 0b00000000101 | BoardcomputerCommandMask
         };
     };
 
@@ -268,7 +276,10 @@ inline const char *bobbycarCanIdDesc(uint16_t id)
     case MotorController<false, true>::Feedback::Temp: return "Temp (MotorController, Feedback, Front, Right)";
     case MotorController<true, false>::Feedback::Temp: return "Temp (MotorController, Feedback, Back, Left)";
     case MotorController<true, true>::Feedback::Temp: return "Temp (MotorController, Feedback, Back, Right)";
-    case Boardcomputer::Command::ButtonPress: return "ButtonPress (Boardcomputer, Command)";
+    case Boardcomputer::Command::RawButtonPressed: return "RawButtonPressed (Boardcomputer, Command)";
+    case Boardcomputer::Command::RawButtonReleased: return "RawButtonReleased (Boardcomputer, Command)";
+    case Boardcomputer::Command::ButtonPressed: return "ButtonPressed (Boardcomputer, Command)";
+    case Boardcomputer::Command::ButtonReleased: return "ButtonReleased (Boardcomputer, Command)";
     case Boardcomputer::Command::RawGas: return "RawGas (Boardcomputer, Command)";
     case Boardcomputer::Command::RawBrems: return "RawBrems (Boardcomputer, Command)";
     case Boardcomputer::Feedback::ButtonLeds: return "ButtonLeds (Boardcomputer, Feedback)";
