@@ -117,19 +117,19 @@ public:
     ~Boardcomputer() = delete;
 
     // used with ButtonPressed and ButtonReleased
-    enum {
-        ButtonLeft,
-        ButtonRight,
-        ButtonUp,
-        ButtonDown,
-        ButtonProfile0,
-        ButtonProfile1,
-        ButtonProfile2,
-        ButtonProfile3,
-        ButtonLeft2,
-        ButtonRight2,
-        ButtonUp2,
-        ButtonDown2,
+    enum class Button {
+        Profile0 = 1,
+        Profile1 = 2,
+        Profile2 = 4,
+        Profile3 = 8,
+        Left = 16,
+        Right = 32,
+        Up = 64,
+        Down = 128,
+        Left2 = 256,
+        Right2 = 512,
+        Up2 = 1024,
+        Down2 = 2048,
     };
 
     // send only TO the boardcomputer
