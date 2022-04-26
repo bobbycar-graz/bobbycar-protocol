@@ -93,13 +93,15 @@ public:
             Speed =        0b00000000100 | MotorControllerFeedbackMask,
             Error =        0b00000001000 | MotorControllerFeedbackMask,
             Angle =        0b00000001100 | MotorControllerFeedbackMask,
-            DcPhaA =       0b00000010000 | MotorControllerFeedbackMask,
-            DcPhaB =       0b00000010100 | MotorControllerFeedbackMask,
-            DcPhaC =       0b00000011000 | MotorControllerFeedbackMask,
+            DcPhaA =       0b00000010000 | MotorControllerFeedbackMask, // unused
+            DcPhaB =       0b00000010100 | MotorControllerFeedbackMask, // unused
+            DcPhaC =       0b00000011000 | MotorControllerFeedbackMask, // unused
             Chops =        0b00000011100 | MotorControllerFeedbackMask,
             Hall =         0b00000100000 | MotorControllerFeedbackMask,
             Voltage =      0b00000100100 | MotorControllerFeedbackMask,
-            Temp =         0b00000101000 | MotorControllerFeedbackMask
+            Temp =         0b00000101000 | MotorControllerFeedbackMask,
+            Id =           0b00000101001 | MotorControllerFeedbackMask,
+            Iq =           0b00000101010 | MotorControllerFeedbackMask,
         };
     };
 };
