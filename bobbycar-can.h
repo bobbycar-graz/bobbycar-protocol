@@ -6,9 +6,9 @@ namespace bobbycar {
 namespace protocol {
 namespace can {
 
-enum : uint16_t { //              vvv
-    DeviceTypeMotorController = 0b00000000000,
-    DeviceTypeBoardcomputer =   0b00100000000
+enum : uint16_t { //              vvv'
+    DeviceTypeMotorController = 0b000'00000000,
+    DeviceTypeBoardcomputer =   0b001'00000000
 };
 
 template<bool isBack, bool isRight>
@@ -55,22 +55,22 @@ public:
         Command() = delete;
         ~Command() = delete;
 
-        enum : uint16_t { //  ....vvvvv
-            Enable =        0b00000000000 | MotorControllerCommandMask,
-            InpTgt =        0b00000000100 | MotorControllerCommandMask,
-            CtrlTyp =       0b00000001000 | MotorControllerCommandMask,
-            CtrlMod =       0b00000001100 | MotorControllerCommandMask,
-            IMotMax =       0b00000010000 | MotorControllerCommandMask,
-            IDcMax =        0b00000010100 | MotorControllerCommandMask,
-            NMotMax =       0b00000011000 | MotorControllerCommandMask,
-            FieldWeakMax =  0b00000011100 | MotorControllerCommandMask,
-            PhaseAdvMax =   0b00000100000 | MotorControllerCommandMask,
-            CruiseCtrlEna = 0b00000100100 | MotorControllerCommandMask,
-            CruiseMotTgt =  0b00000101000 | MotorControllerCommandMask,
-            BuzzerFreq =    0b00000101100 | MotorControllerCommandMask,
-            BuzzerPattern = 0b00000110000 | MotorControllerCommandMask,
-            Led =           0b00000110100 | MotorControllerCommandMask,
-            Poweroff =      0b00000111000 | MotorControllerCommandMask
+        enum : uint16_t { //  ....'vvvvv'..
+            Enable =        0b0000'00000'00 | MotorControllerCommandMask,
+            InpTgt =        0b0000'00001'00 | MotorControllerCommandMask,
+            CtrlTyp =       0b0000'00010'00 | MotorControllerCommandMask,
+            CtrlMod =       0b0000'00011'00 | MotorControllerCommandMask,
+            IMotMax =       0b0000'00100'00 | MotorControllerCommandMask,
+            IDcMax =        0b0000'00101'00 | MotorControllerCommandMask,
+            NMotMax =       0b0000'00110'00 | MotorControllerCommandMask,
+            FieldWeakMax =  0b0000'00111'00 | MotorControllerCommandMask,
+            PhaseAdvMax =   0b0000'01000'00 | MotorControllerCommandMask,
+            CruiseCtrlEna = 0b0000'01001'00 | MotorControllerCommandMask,
+            CruiseMotTgt =  0b0000'01010'00 | MotorControllerCommandMask,
+            BuzzerFreq =    0b0000'01011'00 | MotorControllerCommandMask,
+            BuzzerPattern = 0b0000'01100'00 | MotorControllerCommandMask,
+            Led =           0b0000'01101'00 | MotorControllerCommandMask,
+            Poweroff =      0b0000'01110'00 | MotorControllerCommandMask
         };
     };
 
@@ -88,20 +88,20 @@ public:
         Feedback() = delete;
         ~Feedback() = delete;
 
-        enum : uint16_t { // ....vvvvv
-            DcLink =       0b00000000000 | MotorControllerFeedbackMask,
-            Speed =        0b00000000100 | MotorControllerFeedbackMask,
-            Error =        0b00000001000 | MotorControllerFeedbackMask,
-            Angle =        0b00000001100 | MotorControllerFeedbackMask,
-            DcPhaA =       0b00000010000 | MotorControllerFeedbackMask, // unused
-            DcPhaB =       0b00000010100 | MotorControllerFeedbackMask, // unused
-            DcPhaC =       0b00000011000 | MotorControllerFeedbackMask, // unused
-            Chops =        0b00000011100 | MotorControllerFeedbackMask,
-            Hall =         0b00000100000 | MotorControllerFeedbackMask,
-            Voltage =      0b00000100100 | MotorControllerFeedbackMask,
-            Temp =         0b00000101000 | MotorControllerFeedbackMask,
-            Id =           0b00000101001 | MotorControllerFeedbackMask,
-            Iq =           0b00000101010 | MotorControllerFeedbackMask,
+        enum : uint16_t { // ....'vvvvv'..
+            DcLink =       0b0000'00000'00 | MotorControllerFeedbackMask,
+            Speed =        0b0000'00001'00 | MotorControllerFeedbackMask,
+            Error =        0b0000'00010'00 | MotorControllerFeedbackMask,
+            Angle =        0b0000'00011'00 | MotorControllerFeedbackMask,
+            DcPhaA =       0b0000'00100'00 | MotorControllerFeedbackMask, // unused
+            DcPhaB =       0b0000'00101'00 | MotorControllerFeedbackMask, // unused
+            DcPhaC =       0b0000'00110'00 | MotorControllerFeedbackMask, // unused
+            Chops =        0b0000'00111'00 | MotorControllerFeedbackMask,
+            Hall =         0b0000'01000'00 | MotorControllerFeedbackMask,
+            Voltage =      0b0000'01001'00 | MotorControllerFeedbackMask,
+            Temp =         0b0000'01010'00 | MotorControllerFeedbackMask,
+            Id =           0b0000'01011'00 | MotorControllerFeedbackMask,
+            Iq =           0b0000'01100'00 | MotorControllerFeedbackMask,
         };
     };
 };
@@ -148,13 +148,13 @@ public:
         Command() = delete;
         ~Command() = delete;
 
-        enum : uint16_t { //      ....vvvvvvv
-            RawButtonPressed  = 0b00000000000 | BoardcomputerCommandMask,
-            RawButtonReleased = 0b00000000001 | BoardcomputerCommandMask,
-            ButtonPressed     = 0b00000000010 | BoardcomputerCommandMask,
-            ButtonReleased    = 0b00000000011 | BoardcomputerCommandMask,
-            RawGas            = 0b00000000100 | BoardcomputerCommandMask,
-            RawBrems          = 0b00000000101 | BoardcomputerCommandMask
+        enum : uint16_t { //      ....'vvvvvvv
+            RawButtonPressed  = 0b0000'0000000 | BoardcomputerCommandMask,
+            RawButtonReleased = 0b0000'0000001 | BoardcomputerCommandMask,
+            ButtonPressed     = 0b0000'0000010 | BoardcomputerCommandMask,
+            ButtonReleased    = 0b0000'0000011 | BoardcomputerCommandMask,
+            RawGas            = 0b0000'0000100 | BoardcomputerCommandMask,
+            RawBrems          = 0b0000'0000101 | BoardcomputerCommandMask
         };
     };
 
@@ -172,8 +172,8 @@ public:
         Feedback() = delete;
         ~Feedback() = delete;
 
-        enum : uint16_t { //  ....vvvvvvv
-            ButtonLeds =    0b00000000000 | BoardcomputerFeedbackMask,
+        enum : uint16_t { //  ....'vvvvvvv
+            ButtonLeds =    0b0000'0000000 | BoardcomputerFeedbackMask,
         };
     };
 };
