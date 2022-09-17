@@ -80,6 +80,8 @@ struct MotorFeedback {
     int16_t   dcPhaB = 0;
     int16_t   dcPhaC = 0;
     uint16_t  chops = 0;
+    int16_t   id = 0;
+    int16_t   iq = 0;
     bool      hallA = false;
     bool      hallB = false;
     bool      hallC = false;
